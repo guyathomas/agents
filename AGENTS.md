@@ -1,3 +1,5 @@
+<!-- Template source: https://github.com/guyathomas/agents -->
+
 # AGENTS.md Template
 
 > A generic template for AI coding agents. Copy to your repository root as `AGENTS.md` and customize the `[TEMPLATE: ...]` sections.
