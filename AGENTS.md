@@ -324,29 +324,11 @@ project-root/
 # Features
 
 ## Feature Name
-**Added:** YYYY-MM-DD
-**Status:** Active | Deprecated | Experimental
+**Added:** YYYY-MM-DD | **Status:** Active | Deprecated | Experimental
 
-**Summary:** One-line description of what this feature does.
+Brief description of what this feature does and why it exists.
 
-**Entry Points:**
-- `src/path/to/main-file.ts` - Primary logic
-- `src/components/FeatureComponent.tsx` - UI component
-
-**Usage:**
-\`\`\`typescript
-// How to use this feature
-import { featureFn } from './feature';
-featureFn({ option: 'value' });
-\`\`\`
-
-**Configuration:** (if applicable)
-- `FEATURE_ENABLED` - Toggle feature on/off
-- `FEATURE_LIMIT` - Max items to process
-
-**Dependencies:** External services or key libraries this relies on.
-
-**Known Limitations:** Edge cases, constraints, or planned improvements.
+**Limitations:** Edge cases, constraints, or gotchas not obvious from the code.
 ```
 
 ## TROUBLESHOOTING.md (optional)
