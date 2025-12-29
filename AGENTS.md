@@ -1,4 +1,4 @@
-<!-- Template source: https://github.com/guyathomas/agents -->
+<!-- Template source: https://raw.githubusercontent.com/guyathomas/agents/refs/heads/main/AGENTS.md -->
 
 # AGENTS.md Template
 
