@@ -215,6 +215,7 @@ Maintain these files in `/docs/` - keep all docs concise and current:
 | `CODING_PATTERNS.md` | Repo-specific patterns (not general best practices) |
 | `FEATURES.md` | Catalog of implemented features with key details |
 | `TROUBLESHOOTING.md` | Common issues and solutions (optional) |
+| `backlog/` | Future work items - describe what/why, never implementation details |
 
 Update docs when changes affect architecture or establish new patterns.
 
