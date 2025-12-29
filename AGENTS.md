@@ -205,6 +205,7 @@ npm run lint && npm run typecheck && npm run build && npm run test
 5. **Loop** - Repeat steps 3-4 until root cause is identified
 6. **Fix** - Implement the solution
 7. **Verify** - Add a regression test to prevent recurrence
+8. **Report** - Document root cause, solution, and prevention measures
 
 ---
 
