@@ -213,6 +213,7 @@ Maintain these files in `/docs/` - keep all docs concise and current:
 | `DECISIONS.md` | Architectural decisions with rationale |
 | `ARCHITECTURE.md` | System overview and component relationships |
 | `CODING_PATTERNS.md` | Repo-specific patterns (not general best practices) |
+| `FEATURES.md` | Catalog of implemented features with key details |
 | `TROUBLESHOOTING.md` | Common issues and solutions (optional) |
 
 Update docs when changes affect architecture or establish new patterns.
@@ -315,6 +316,37 @@ project-root/
 \`\`\`typescript
 // anti-pattern
 \`\`\`
+```
+
+## FEATURES.md
+
+```markdown
+# Features
+
+## Feature Name
+**Added:** YYYY-MM-DD
+**Status:** Active | Deprecated | Experimental
+
+**Summary:** One-line description of what this feature does.
+
+**Entry Points:**
+- `src/path/to/main-file.ts` - Primary logic
+- `src/components/FeatureComponent.tsx` - UI component
+
+**Usage:**
+\`\`\`typescript
+// How to use this feature
+import { featureFn } from './feature';
+featureFn({ option: 'value' });
+\`\`\`
+
+**Configuration:** (if applicable)
+- `FEATURE_ENABLED` - Toggle feature on/off
+- `FEATURE_LIMIT` - Max items to process
+
+**Dependencies:** External services or key libraries this relies on.
+
+**Known Limitations:** Edge cases, constraints, or planned improvements.
 ```
 
 ## TROUBLESHOOTING.md (optional)
