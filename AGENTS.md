@@ -202,8 +202,9 @@ npm run lint && npm run typecheck && npm run build && npm run test
 2. **Capture** - Gather logs, traces, error messages, screenshots
 3. **Hypothesize** - Form 2-3 potential causes
 4. **Validate** - Use the fastest tool to test each hypothesis
-5. **Fix** - Implement the solution, or refine your hypothesis
-6. **Verify** - Add a regression test to prevent recurrence
+5. **Loop** - Repeat steps 3-4 until root cause is identified
+6. **Fix** - Implement the solution
+7. **Verify** - Add a regression test to prevent recurrence
 
 ---
 
