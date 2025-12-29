@@ -213,6 +213,7 @@ Maintain these files in `/docs/` - keep all docs concise and current:
 | `DECISIONS.md` | Architectural decisions with rationale |
 | `ARCHITECTURE.md` | System overview and component relationships |
 | `CODING_PATTERNS.md` | Repo-specific patterns (not general best practices) |
+| `FEATURES.md` | Catalog of implemented features with key details |
 | `TROUBLESHOOTING.md` | Common issues and solutions (optional) |
 
 Update docs when changes affect architecture or establish new patterns.
@@ -315,6 +316,19 @@ project-root/
 \`\`\`typescript
 // anti-pattern
 \`\`\`
+```
+
+## FEATURES.md
+
+```markdown
+# Features
+
+## Feature Name
+**Added:** YYYY-MM-DD | **Status:** Active | Deprecated | Experimental
+
+Brief description of what this feature does and why it exists.
+
+**Limitations:** Edge cases, constraints, or gotchas not obvious from the code.
 ```
 
 ## TROUBLESHOOTING.md (optional)
