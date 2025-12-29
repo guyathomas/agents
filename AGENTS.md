@@ -196,11 +196,12 @@ npm run lint && npm run typecheck && npm run build && npm run test
 
 ## Debugging
 
-1. **Capture** - Gather logs, traces, error messages, screenshots
-2. **Hypothesize** - Form 2-3 potential causes
-3. **Validate** - Use the fastest tool to test each hypothesis
-4. **Fix** - Implement the solution, or refine your hypothesis
-5. **Verify** - Add a regression test to prevent recurrence
+1. **Reproduce** - Using Chrome Devtools MCP, E2E or Unit tests
+2. **Capture** - Gather logs, traces, error messages, screenshots
+3. **Hypothesize** - Form 2-3 potential causes
+4. **Validate** - Use the fastest tool to test each hypothesis
+5. **Fix** - Implement the solution, or refine your hypothesis
+6. **Verify** - Add a regression test to prevent recurrence
 
 ---
 
