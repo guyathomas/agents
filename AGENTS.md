@@ -198,7 +198,7 @@ npm run lint && npm run typecheck && npm run build && npm run test
 
 ## Debugging
 
-1. **Reproduce** - Using Chrome Devtools MCP, E2E or Unit tests
+1. **Reproduce** - Using Chrome Devtools MCP, cURL, E2E or Unit tests
 2. **Capture** - Gather logs, traces, error messages, screenshots
 3. **Hypothesize** - Form 2-3 potential causes
 4. **Validate** - Use the fastest tool to test each hypothesis
