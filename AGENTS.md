@@ -206,8 +206,9 @@ npm run lint && npm run typecheck && npm run build && npm run test
 6. **Validate** - Use the fastest tool to test each hypothesis
 7. **Loop** - Repeat steps 5-6 until root cause is identified
 8. **Fix** - Implement the solution
-9. **Verify** - Add a regression test to prevent recurrence
-10. **Report** - Document root cause, solution, and prevention measures
+9. **Clean** - Remove debugging artifacts and ensure fix is minimal
+10. **Verify** - Add a regression test to prevent recurrence
+11. **Report** - Document root cause, solution, and prevention measures
 
 ---
 
