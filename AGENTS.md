@@ -199,13 +199,14 @@ npm run lint && npm run typecheck && npm run build && npm run test
 ## Debugging
 
 1. **Reproduce** - Using Chrome Devtools MCP, cURL, E2E or Unit tests
-2. **Capture** - Gather logs, traces, error messages, screenshots
-3. **Hypothesize** - Form 2-3 potential causes
-4. **Validate** - Use the fastest tool to test each hypothesis
-5. **Loop** - Repeat steps 3-4 until root cause is identified
-6. **Fix** - Implement the solution
-7. **Verify** - Add a regression test to prevent recurrence
-8. **Report** - Document root cause, solution, and prevention measures
+2. **Isolate** - Narrow scope using git bisect, feature flags, or minimal reproduction
+3. **Capture** - Gather logs, traces, error messages, screenshots
+4. **Hypothesize** - Form 2-3 potential causes
+5. **Validate** - Use the fastest tool to test each hypothesis
+6. **Loop** - Repeat steps 4-5 until root cause is identified
+7. **Fix** - Implement the solution
+8. **Verify** - Add a regression test to prevent recurrence
+9. **Report** - Document root cause, solution, and prevention measures
 
 ---
 
