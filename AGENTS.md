@@ -201,12 +201,13 @@ npm run lint && npm run typecheck && npm run build && npm run test
 1. **Reproduce** - Using Chrome Devtools MCP, cURL, E2E or Unit tests
 2. **Isolate** - Narrow scope with a minimal reproduction
 3. **Capture** - Gather logs, traces, error messages, screenshots
-4. **Hypothesize** - Form 2-3 potential causes
-5. **Validate** - Use the fastest tool to test each hypothesis
-6. **Loop** - Repeat steps 4-5 until root cause is identified
-7. **Fix** - Implement the solution
-8. **Verify** - Add a regression test to prevent recurrence
-9. **Report** - Document root cause, solution, and prevention measures
+4. **Search** - Look for similar issues using Context7 MCP, GitHub MCP, and Serper search
+5. **Hypothesize** - Form 2-3 potential causes
+6. **Validate** - Use the fastest tool to test each hypothesis
+7. **Loop** - Repeat steps 5-6 until root cause is identified
+8. **Fix** - Implement the solution
+9. **Verify** - Add a regression test to prevent recurrence
+10. **Report** - Document root cause, solution, and prevention measures
 
 ---
 
