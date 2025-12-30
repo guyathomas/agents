@@ -93,7 +93,10 @@ project-root/
 3. Present options to user with a recommendation before coding
 
 ### During Implementation
-1. Write failing test → implement → verify → refactor
+1. Follow TDD RED-GREEN-REFACTOR cycle:
+   - **RED**: Write a failing test that defines expected behavior
+   - **GREEN**: Write minimal code to make the test pass
+   - **REFACTOR**: Clean up code while keeping tests green
 2. Match existing patterns in the codebase
 
 ### After Implementation
