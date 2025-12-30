@@ -199,7 +199,7 @@ npm run lint && npm run typecheck && npm run build && npm run test
 ## Debugging
 
 1. **Reproduce** - Using Chrome Devtools MCP, cURL, E2E or Unit tests
-2. **Isolate** - Narrow scope using git bisect, feature flags, or minimal reproduction
+2. **Isolate** - Narrow scope with a minimal reproduction
 3. **Capture** - Gather logs, traces, error messages, screenshots
 4. **Hypothesize** - Form 2-3 potential causes
 5. **Validate** - Use the fastest tool to test each hypothesis
