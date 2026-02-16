@@ -315,5 +315,3 @@ This file is a **living contract**. Keep it accurate, scannable, and enforceable
 
 * {{COMMON_ISSUE_1}} → {{HOW_TO_CHECK_1}}
 * {{COMMON_ISSUE_2}} → {{HOW_TO_CHECK_2}}
-
-```
