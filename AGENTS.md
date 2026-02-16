@@ -1,67 +1,67 @@
-<!-- Template source: https://raw.githubusercontent.com/guyathomas/agents/refs/heads/main/AGENTS.md -->
-
-# AGENTS.md Template
-
-> A generic template for AI coding agents. Copy to your repository root as `AGENTS.md` and customize the `[TEMPLATE: ...]` sections.
-
----
-
+````md
 # AGENTS.md
 
-> `CLAUDE.md` should symlink to this file for cross-tool compatibility: `ln -s AGENTS.md CLAUDE.md`
+> `CLAUDE.md` may be a symlink to this file.
+> Keep framework/domain specifics in: **{{DOCS_PATHS}}** (e.g. `docs/reference/coding-standards.md`, `apps/*/AGENTS.md`).
 
 ## Project
 
-[TEMPLATE: Brief 1-2 line project description]
+**{{PROJECT_NAME}}** — {{ONE_LINE_DESCRIPTION}}
 
-```
-Examples:
-- "Turborepo monorepo: apps/api (Express) + apps/web (React)"
-- "Django REST API with PostgreSQL and Celery"
-- "CLI tool built with Go and Cobra"
-```
+- Stack: {{STACK_SUMMARY}} (e.g., Tauri+SvelteKit, Next.js+API, etc.)
+- Repo shape: {{MONOREPO_OR_SINGLE_APP}} (e.g., “Turborepo monorepo”, “single app”)
+- Source of truth: {{SOURCE_OF_TRUTH}} (e.g., local files, DB, API)
+
+## Principles (customize)
+
+- {{PRINCIPLE_1}}
+- {{PRINCIPLE_2}}
+- {{PRINCIPLE_3}}
+- {{PRINCIPLE_4_OPTIONAL}}
+
+> Keep this short and product-defining. If a change violates a principle, it needs explicit justification.
+
+---
 
 ## Setup
 
-[TEMPLATE: Commands required before running tests or development]
-
 ```bash
-# Example for Node.js project
-npm install     # Install dependencies
-npm run build   # Build (if required before tests)
-npm test        # Run tests
-```
+pnpm install
+pnpm build      # keep if required before tests
+pnpm test
+````
 
-[TEMPLATE: Add any important notes about setup order or prerequisites]
+**Important constraints (customize):**
+
+* {{IF_BUILD_REQUIRED_BEFORE_TESTS_EXPLAIN_HERE}} (e.g., “Tests fail unless `pnpm build` ran first.”)
+* {{OTHER_ORDERING_OR_ENV_NOTES}}
+
+---
 
 ## Scripts
 
-[TEMPLATE: List your key development commands]
+> Prefer consistent “gate” entrypoints across repos even if internals differ.
 
 ```bash
-# Common examples - customize for your project
-npm run dev        # Start development server
-npm run build      # Build for production
-npm run lint       # Run linter
-npm run typecheck  # Type checking
-npm run test       # Run tests
-npm run test:e2e   # End-to-end tests
-```
+# common
+pnpm dev
+pnpm build
+pnpm test
+pnpm lint
+pnpm typecheck        # if applicable
+pnpm check            # if applicable (TS + framework checks)
+pnpm format           # if applicable
+pnpm format:check     # if applicable
 
-## Project Structure
+# confidence gates (required)
+pnpm gate:commit      # local gate (used by pre-push; fast-ish & deterministic)
+pnpm gate:pr          # PR/CI gate (full confidence; enforced by CI)
 
-[TEMPLATE: Document key directories - remove or add as needed]
-
-```
-project-root/
-├── src/              # Source code
-│   ├── components/   # UI components
-│   ├── lib/          # Utilities and helpers
-│   ├── api/          # API routes/handlers
-│   └── types/        # TypeScript types
-├── tests/            # Test files
-├── docs/             # Documentation
-└── scripts/          # Build/deploy scripts
+# optional (customize)
+pnpm test:unit
+pnpm test:integration
+pnpm test:e2e
+pnpm clean
 ```
 
 ---
@@ -69,298 +69,253 @@ project-root/
 ## Decision Protocol
 
 **Ask the user before:**
-- Architectural choices between valid approaches
-- Adding new dependencies
-- Changing API contracts or public interfaces
-- Database schema modifications
-- Removing existing functionality
 
-**Don't ask for:**
-- Implementation details within an agreed approach
-- Bug fixes with clear solutions
-- Code style or formatting
-- Test structure and organization
+* Architectural choices between valid approaches
+* Adding dependencies (runtime or dev)
+* Changing API contracts, shared types, or cross-package interfaces
+* Database schema / migrations / persistent storage format changes
+* Deleting or deprecating functionality
+* Changing build tooling / CI behavior
+* Touching project-wide base utilities that affect many modules/packages
+* {{PROJECT_SPECIFIC_ASK_BEFORE_ITEMS}} (e.g., editor extension systems, IPC signatures)
 
-**How to ask:** Present 2-4 options with trade-offs, state your recommendation, keep each option to one paragraph max.
+**Don’t ask for:**
+
+* Implementation details within an agreed approach
+* Bug fixes, code style, test organization
+* Refactors confined to a single module/file that don’t change behavior
+
+**How to ask:** Present 2–4 options with trade-offs, state your recommendation, one paragraph max per option.
 
 ---
 
 ## Development Flow
 
-### Before Implementation
-1. Research using available MCP tools (GitHub, web search, Context7) and codebase exploration
-2. Draft 2-3 implementation approaches with pros/cons
-3. Present options to user with a recommendation before coding
+1. **Before coding**
 
-### During Implementation
-1. Follow TDD RED-GREEN-REFACTOR cycle:
-   - **RED**: Write a failing test that defines expected behavior
-   - **GREEN**: Write minimal code to make the test pass
-   - **REFACTOR**: Clean up code while keeping tests green
-2. Match existing patterns in the codebase
+   * Read relevant docs: **{{DOCS_PATHS}}**
+   * Search for existing patterns and match them (don’t invent new patterns casually).
 
-### After Implementation
-Review your changes and report issues by priority:
-- **Critical** - Security vulnerabilities, data loss risks, breaking changes
-- **High** - Bugs, performance issues, missing error handling
-- **Medium** - Code quality, missing tests, unclear naming
-- **Low** - Style inconsistencies, minor refactoring opportunities
+2. **While coding**
 
-Propose which issues to fix now vs. defer, with brief rationale.
+   * TDD loop: **failing test → implement → pass → refactor**
+   * Treat requirements as tests: convert “should/must” into test cases.
+   * Mock only at boundaries.
 
-**Pause and ask if:**
-- Scope is growing beyond the original request
-- An assumption turns out to be wrong
-- A trade-off decision is needed
-- Changes would affect unplanned areas
+3. **After coding**
+
+   * Self-review the diff (correctness, naming, error handling, edge cases).
+   * Run the local gate: `pnpm gate:commit`
+   * Update docs/CHANGELOG if behavior or usage changed.
+
+**Pause if:** scope grows, assumptions break, a trade-off is needed, or you’re touching unplanned code.
 
 ---
 
 ## Code Rules
 
-[TEMPLATE: Customize these rules for your language/framework. Below are common patterns - keep what applies, remove what doesn't]
+### TypeScript (core)
 
-**General:**
-- Prefer `unknown` over `any`, narrow types explicitly
-- Validate inputs at system boundaries
-- Named exports over default exports
-- Keep functions under 30 lines, single responsibility
-- Use options objects over many positional arguments
+* Prefer `unknown` over `any`; narrow types explicitly.
+* Avoid `@ts-ignore`. If truly needed, add a comment explaining why (and link to an issue/ticket if applicable).
+* Named exports over default exports.
+* Colocate types until shared by ~3+ files; then extract to a shared module.
+* Validate runtime inputs at boundaries (API handlers, IPC, file IO). Tooling may vary (Zod/Valibot/etc); the principle is required.
 
-**[TEMPLATE: Framework-specific rules]**
+### Functions (core)
 
-```
-Examples for different stacks:
+* Keep functions **<30 lines** and **single responsibility**.
+* Prefer an **options object** over many positional arguments.
+* Derive state where possible; avoid syncing state via effects when derivation/computation is correct and simpler.
 
-React/Next.js:
-- Server Components by default, 'use client' only when needed
-- Fetch data in Server Components, not useEffect
-- Use <Link> for navigation, not router.push
-- Use next/image for images, next/font for fonts
+### Error handling (core)
 
-Python/Django:
-- Use type hints on all function signatures
-- Prefer class-based views for complex logic
-- Use Django ORM over raw SQL
-- Keep business logic in services, views stay thin
+* Fail loudly at boundaries; return typed errors where appropriate.
+* Don’t swallow errors. If you catch, either:
 
-Go:
-- Handle errors explicitly, don't ignore them
-- Use context for cancellation and timeouts
-- Prefer composition over inheritance
-- Keep interfaces small and focused
-```
+  * add context and rethrow, or
+  * handle fully and test the behavior.
 
-**Testing:**
-- Mock only at system boundaries (APIs, databases, file system)
-- Test behavior, not implementation details
-- Include edge cases: null, empty, zero, negative, boundary values
+### Performance & correctness (core)
+
+* Prefer correctness over convenience for persistence, coordination, and state.
+* Avoid subtle state sync bugs; keep state transitions explicit and testable.
+
+### Framework & domain-specific rules (customize)
+
+Put stack-specific rules in **{{DOCS_PATHS}}** or `apps/*/AGENTS.md`, for example:
+
+* UI framework conventions (React/Next.js, Svelte, etc.)
+* Editor/widget/extension constraints
+* Backend/service patterns
+* Styling/design system rules
+
+This core file should stay framework-agnostic.
+
+---
+
+## Testing
+
+**Philosophy (core):**
+
+* Mock only at boundaries (network, filesystem, DB, external services).
+* Test behavior/outcomes, not wiring.
+* Prefer high-signal assertions (exact values/ranges/classes). Avoid vacuous assertions (`toBeDefined`, `> 0`) unless they’re truly meaningful.
+* Cover edge cases: **null/undefined**, **empty**, **zero**, **negative**, **missing fields**, **malformed inputs**.
+* Don’t test library internals; test your integration at your boundary.
+
+**Structure (recommended):**
+
+* Co-locate tests near implementation where practical (e.g., `foo.ts` + `foo.test.ts`).
+* Use integration/E2E tests for cross-cutting behavior and visual/interaction correctness.
+
+**Stack-specific testing rules (customize):**
+
+* {{STACK_SPECIFIC_TESTING_RULE_1}}
+* {{STACK_SPECIFIC_TESTING_RULE_2}}
 
 ---
 
 ## Git
 
-**Commits:** `<type>(<scope>): <summary>`
+**Commits:** `<type>(<scope>): <summary>` — imperative mood, max 50 chars.
 
-- Max 50 characters for summary
-- Use imperative mood ("add" not "added")
-- Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+Scopes (customize): `{{SCOPE_1}}`, `{{SCOPE_2}}`, `{{SCOPE_3}}` (or omit scope if your repo doesn’t use it)
 
-**Examples:**
-- `feat(auth): add OAuth2 login flow`
-- `fix(cart): handle empty cart edge case`
-- `refactor(api): extract validation middleware`
-
-**CI:** Own your builds. Watch CI runs until green. Fix failures without being asked.
+**No AI footnotes.** Remove auto-generated signatures before pushing.
 
 ---
 
 ## Never Modify Without Approval
 
-[TEMPLATE: List files that should not be changed without explicit permission]
+**Protected categories (core):**
 
-- `.env*` files (contain secrets)
-- Main config files (e.g., `webpack.config.js`, `next.config.js`, `tsconfig.json`)
-- `package.json` / `requirements.txt` / `go.mod` dependencies
-- Database migration files (after they've been applied)
-- CI/CD configuration (`.github/workflows/`, `Dockerfile`)
+* Dependency manifests / dependency sections (`package.json`, `Cargo.toml`, etc.)
+* Build/runtime config (bundler config, framework config, CI config)
+* `.env` files and secrets handling
+* Database schemas / migrations
+* Public/shared API contracts and shared types
+
+**Project-specific protected files (customize):**
+
+* {{FILE_PATH_1}}
+* {{FILE_PATH_2}}
+* {{FILE_PATH_3}}
+
+---
+
+## Hooks & CI (what runs where)
+
+Hooks are **developer ergonomics**; CI is **authoritative**.
+Hooks should call repo scripts (scripts are the source of truth), not re-implement logic.
+
+### Pre-commit hook (fast, staged-only, deterministic)
+
+**Goal:** prevent churn (format/lint) without slowing commits.
+
+Runs (recommended):
+
+* Staged formatting (auto-fix OK locally) via `lint-staged` (or equivalent)
+* Staged lint (auto-fix OK locally if safe) via `lint-staged` (or equivalent)
+
+Optional (only if reliably fast and deterministic):
+
+* Minimal targeted checks (e.g., quick unit tests for changed packages)
+
+**Do NOT run in pre-commit:**
+
+* Full typecheck/build
+* Full unit/integration/e2e suites
+* Anything network-dependent or flaky
+
+**Implementation guidance (tool-agnostic):**
+
+* Use `lint-staged` + a hook manager (Husky / Lefthook / simple git hooks)
+* Only touch staged files; do not rewrite the working tree unexpectedly
+
+### Pre-push hook (broader local confidence)
+
+**Goal:** catch breakage before CI cost.
+
+Runs:
+
+* `pnpm gate:commit`
+
+Guidelines:
+
+* Pre-push can take longer than pre-commit, but should still be deterministic and runnable offline when possible.
+* If the local gate is too slow, tune `gate:commit`—don’t move heavy checks into pre-commit.
+
+### CI (authoritative PR gate)
+
+**Goal:** enforce merge correctness with full coverage.
+
+Runs:
+
+* `pnpm gate:pr`
+
+Notes:
+
+* CI may split the gate across jobs/workflows, but the **aggregate must be equivalent** to `pnpm gate:pr`.
+* CI should be check-only (no auto-fixes). Fixes happen locally.
 
 ---
 
 ## Quality Gates
 
-All must pass before submitting changes:
+These script names must exist in every repo:
 
-[TEMPLATE: Customize for your project's tooling]
+### `pnpm gate:commit` (local confidence gate)
 
-```bash
-npm run lint && npm run typecheck && npm run build && npm run test
-```
+**Typical contents (customize to your repo):**
+
+* `pnpm lint`
+* `pnpm typecheck` or `pnpm check`
+* `pnpm build` (include if tests depend on build artifacts)
+* `pnpm test` (unit + integration; avoid heavy/native/docker e2e unless repo policy requires it)
+
+### `pnpm gate:pr` (PR/CI confidence gate)
+
+**Typical contents (customize to your repo):**
+
+* Everything in `gate:commit`, plus:
+* `pnpm format:check` (if applicable)
+* Full test suite (including E2E where applicable)
+* Platform/native/docker E2E (CI-only if it’s too heavy locally)
+* Optional CI-only checks (security/license scans, coverage upload, artifact build)
+
+> If the repo requires build→test ordering, encode it inside these gates and document it in **Setup** above.
+
+---
+
+## Continuous Improvement of This Doc
+
+This file is a **living contract**. Keep it accurate, scannable, and enforceable.
+
+* **Update in the same PR** as the change that motivates it (new workflow, new convention, new gate).
+* **Prefer scripts over prose:** document *what* runs (e.g., `pnpm gate:commit`) and keep the exact command list in `package.json`.
+* **Keep core generic:** move stack/domain detail into `{{DOCS_PATHS}}` and link it (don’t bloat this file).
+* **Only add rules that pay rent:** each new rule should prevent a real recurring failure or ambiguity.
+* **Make rules enforceable:** if it’s important, encode it in gates/tests/lint (or remove/soften it).
+* **Use clear policy language:** *MUST* / *SHOULD* / *MAY*. Avoid long paragraphs.
+* **Prune aggressively:** remove outdated sections, duplicated lists, or anything that diverges from reality.
+* **Approval boundary:** changing Decision Protocol, protected files, or gate definitions is a policy change—ask first.
 
 ---
 
 ## Debugging
 
-1. **Reproduce** - Using Chrome Devtools MCP, cURL, E2E or Unit tests
-2. **Isolate** - Narrow scope with a minimal reproduction
-3. **Capture** - Gather logs, traces, error messages, screenshots
-4. **Search** - Look for similar issues using Context7 MCP, GitHub MCP, and Serper search
-5. **Hypothesize** - Form 2-3 potential causes
-6. **Validate** - Use the fastest tool to test each hypothesis
-7. **Loop** - Repeat steps 5-6 until root cause is identified
-8. **Fix** - Implement the solution
-9. **Clean** - Remove debugging artifacts and ensure fix is minimal
-10. **Verify** - Add a regression test to prevent recurrence
-11. **Report** - Document root cause, solution, and prevention measures
+1. **Capture** evidence (logs, traces, screenshots, failing test output).
+2. **Hypothesize** 2–3 likely causes.
+3. **Validate** using the fastest tool (focused test, minimal repro, targeted logging).
+4. **Fix** or refine the hypothesis.
+5. **Verify** with a regression test (unit/integration/E2E as appropriate).
 
----
+**Common project issues (customize):**
 
-## Documentation
-
-Maintain these files in `/docs/` - keep all docs concise and current:
-
-| File | Purpose |
-|------|---------|
-| `DECISIONS.md` | Architectural decisions with rationale |
-| `ARCHITECTURE.md` | System overview and component relationships |
-| `CODING_PATTERNS.md` | Repo-specific patterns (not general best practices) |
-| `FEATURES.md` | Catalog of implemented features with key details |
-| `TROUBLESHOOTING.md` | Common issues and solutions (optional) |
-| `backlog/` | Future work items - describe what/why, never implementation details |
-
-Update docs when changes affect architecture or establish new patterns.
-
----
-
-## Self-Improvement
-
-Propose updates to AGENTS.md or `/docs/` when:
-- You give the same instruction twice → add to relevant doc
-- You hit an undocumented gotcha → add to Setup or Troubleshooting
-- A pattern is used 2+ times → add to CODING_PATTERNS.md
-- An architectural decision is made → add to DECISIONS.md
-- Existing docs contradict the codebase → propose correction
-
-Keep docs lean: update existing sections rather than adding new ones.
-
----
-
-## Monorepo / App-Specific Docs
-
-[TEMPLATE: For monorepos, create AGENTS.md files in subdirectories. Agents read the nearest file in the directory tree.]
+* {{COMMON_ISSUE_1}} → {{HOW_TO_CHECK_1}}
+* {{COMMON_ISSUE_2}} → {{HOW_TO_CHECK_2}}
 
 ```
-project-root/
-├── AGENTS.md              # Root - shared conventions
-├── apps/
-│   ├── api/AGENTS.md      # API-specific patterns
-│   └── web/AGENTS.md      # Frontend-specific patterns
 ```
-
-**App-specific AGENTS.md template:**
-
-```markdown
-# AGENTS.md - [App Name]
-
-> For project-wide conventions, see root `AGENTS.md`.
-
-## Overview
-- **Framework**: [Framework and version]
-- **Key Libraries**: [Main dependencies]
-
-## Directory Structure
-[Layout for this app]
-
-## Key Commands
-[App-specific commands]
-
-## Patterns
-[Code examples for this app's patterns]
-```
-
----
-
-# Documentation Templates
-
-## DECISIONS.md
-
-```markdown
-# Decisions
-
-## [YYYY-MM-DD] Decision Title
-**Context:** Why this came up
-**Decision:** What we chose
-**Consequences:** Trade-offs accepted
-```
-
-## ARCHITECTURE.md
-
-```markdown
-# Architecture
-
-## Overview
-[1-2 sentence system description]
-
-## Components
-| Component | Responsibility | Key Files |
-|-----------|---------------|-----------|
-| Auth | User authentication | `src/auth/` |
-
-## Data Flow
-[User → API → DB, etc.]
-
-## External Dependencies
-- Service X: [purpose]
-```
-
-## CODING_PATTERNS.md
-
-```markdown
-# Coding Patterns
-
-## Pattern Name
-**When:** [situation to use this]
-**Example:**
-\`\`\`typescript
-// code from repo
-\`\`\`
-**Avoid:**
-\`\`\`typescript
-// anti-pattern
-\`\`\`
-```
-
-## FEATURES.md
-
-```markdown
-# Features
-
-## Feature Name
-**Added:** YYYY-MM-DD | **Status:** Active | Deprecated | Experimental
-
-Brief description of what this feature does and why it exists.
-
-**Limitations:** Edge cases, constraints, or gotchas not obvious from the code.
-```
-
-## TROUBLESHOOTING.md (optional)
-
-```markdown
-# Troubleshooting
-
-## Problem description
-**Symptoms:** What you see
-**Cause:** Why it happens
-**Fix:** How to resolve
-```
-
----
-
-# Tips for Effective AGENTS.md
-
-1. **Keep it concise** - Aim for under 500 lines; split into app-specific files if larger
-2. **Use code examples** - Reference real files: "See `src/auth/login.ts`" beats abstract descriptions
-3. **Update regularly** - Outdated docs are worse than no docs
-4. **Link, don't duplicate** - Reference external docs rather than copying
-5. **Focus on "why"** - Explain reasoning, not just rules
-6. **Test your docs** - Use them yourself to find gaps
